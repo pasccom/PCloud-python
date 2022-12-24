@@ -183,313 +183,289 @@ class TestDownload(FileTestCase):
         self.__testNormal('/New file', [b'01234567', b'89ABCDEF'], 0)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testIdNoChunksNoProgressError(self, result, error):
         self.__testError(1, [], {'result': result, 'error': error}, None)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testIdOneChunkNoProgressError(self, result, error):
         self.__testError(1, [b'01234567'], {'result': result, 'error': error}, None)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testIdOneAndHalfChunksNoProgressError(self, result, error):
         self.__testError(1, [b'01234567', b'89AB'], {'result': result, 'error': error}, None)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testIdTwoChunksNoProgressError(self, result, error):
         self.__testError(1, [b'01234567', b'89ABCDEF'], {'result': result, 'error': error}, None)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testIdNoChunksProgressError(self, result, error):
         self.__testError(1, [], {'result': result, 'error': error}, 4)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testIdOneChunkProgressError(self, result, error):
         self.__testError(1, [b'01234567'], {'result': result, 'error': error}, 4)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testIdOneAndHalfChunksProgressError(self, result, error):
         self.__testError(1, [b'01234567', b'89AB'], {'result': result, 'error': error}, 4)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testIdTwoChunksProgressError(self, result, error):
         self.__testError(1, [b'01234567', b'89ABCDEF'], {'result': result, 'error': error}, 4)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testIdNoChunksProgress0Error(self, result, error):
         self.__testError(1, [], {'result': result, 'error': error}, 0)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testIdOneChunkProgress0Error(self, result, error):
         self.__testError(1, [b'01234567'], {'result': result, 'error': error}, 0)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testIdOneAndHalfChunksProgress0Error(self, result, error):
         self.__testError(1, [b'01234567', b'89AB'], {'result': result, 'error': error}, 0)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testIdTwoChunksProgress0Error(self, result, error):
         self.__testError(1, [b'01234567', b'89ABCDEF'], {'result': result, 'error': error}, 0)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testPathNoChunksNoProgressError(self, result, error):
         self.__testError('/New file', [], {'result': result, 'error': error}, None)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testPathOneChunkNoProgressError(self, result, error):
         self.__testError('/New file', [b'01234567'], {'result': result, 'error': error}, None)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testPathOneAndHalfChunksNoProgressError(self, result, error):
         self.__testError('/New file', [b'01234567', b'89AB'], {'result': result, 'error': error}, None)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testPathTwoChunksNoProgressError(self, result, error):
         self.__testError('/New file', [b'01234567', b'89ABCDEF'], {'result': result, 'error': error}, None)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testPathNoChunksProgressError(self, result, error):
         self.__testError('/New file', [], {'result': result, 'error': error}, 4)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testPathOneChunkProgressError(self, result, error):
         self.__testError('/New file', [b'01234567'], {'result': result, 'error': error}, 4)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testPathOneAndHalfChunksProgressError(self, result, error):
         self.__testError('/New file', [b'01234567', b'89AB'], {'result': result, 'error': error}, 4)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testPathTwoChunksProgressError(self, result, error):
         self.__testError('/New file', [b'01234567', b'89ABCDEF'], {'result': result, 'error': error}, 4)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testPathNoChunksProgress0Error(self, result, error):
         self.__testError('/New file', [], {'result': result, 'error': error}, 0)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testPathOneChunkProgress0Error(self, result, error):
         self.__testError('/New file', [b'01234567'], {'result': result, 'error': error}, 0)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testPathOneAndHalfChunksProgress0Error(self, result, error):
         self.__testError('/New file', [b'01234567', b'89AB'], {'result': result, 'error': error}, 0)
 
     @testdata.TestData([
-        {'result': 1000, 'error': "Log in required."                                                     },
-        {'result': 1007, 'error': "Invalid or closed file descriptor."                                   },
-        {'result': 1009, 'error': "Please provide 'offset'."                                             },
-        {'result': 2000, 'error': "Log in failed."                                                       },
-        {'result': 2003, 'error': "Access denied, you do not have permissions to preform this operation."},
-        {'result': 2008, 'error': "User is over quota."                                                  },
-        {'result': 4000, 'error': "Too many login tries from this IP address."                           },
-        {'result': 5003, 'error': "Write error, try reopening the file."                                 },
+        {'result': 1000, 'error': "Log in required."                          },
+        {'result': 1007, 'error': "Invalid or closed file descriptor."        },
+        {'result': 1009, 'error': "Please provide 'offset'."                  },
+        {'result': 1011, 'error': "Please provide 'count'."                   },
+        {'result': 2000, 'error': "Log in failed."                            },
+        {'result': 4000, 'error': "Too many login tries from this IP address."},
+        {'result': 5003, 'error': "Write error, try reopening the file."      },
     ])
     def testPathTwoChunksProgress0Error(self, result, error):
         self.__testError('/New file', [b'01234567', b'89ABCDEF'], {'result': result, 'error': error}, 0)
