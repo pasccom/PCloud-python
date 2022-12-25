@@ -791,7 +791,7 @@ class PCloud:
         progPath = srcFilePath + '.prog'
 
         if destFileName is not None:
-            print(f'Upload {srcFilePath} to pCloud://{fileOrFolder + destFileName}')
+            print(f'Upload {srcFilePath} to pCloud://{fileOrFolder}/{destFileName}')
         else:
             print(f'Upload {srcFilePath} to pCloud://{fileOrFolder}')
 
