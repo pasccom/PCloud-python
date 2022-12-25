@@ -28,6 +28,7 @@ class TestUploadFiles(AuthTestCase):
         self.checkMock('POST', 'https://pcloud.localhost/uploadfile', params={'folderid': 0}, files={
             'New file': ('New file', self.__class__.file1),
         })
+        self.assertEqual(len(files), 1)
         root.check(self, files[0])
 
     @unittest.mock.patch('pcloud.src.main.requests.request')
@@ -45,6 +46,7 @@ class TestUploadFiles(AuthTestCase):
             'New file1': ('New file1', self.__class__.file1),
             'New file2': ('New file2', self.__class__.file2),
         })
+        self.assertEqual(len(files), 2)
         roots[0].check(self, files[0])
         roots[1].check(self, files[1])
 
@@ -62,6 +64,7 @@ class TestUploadFiles(AuthTestCase):
         self.checkMock('POST', 'https://pcloud.localhost/uploadfile', params={'folderid': 1}, files={
             'New file': ('New file', self.__class__.file1),
         })
+        self.assertEqual(len(files), 1)
         root.check(self, files[0])
 
     @unittest.mock.patch('pcloud.src.main.requests.request')
@@ -79,6 +82,7 @@ class TestUploadFiles(AuthTestCase):
             'New file1': ('New file1', self.__class__.file1),
             'New file2': ('New file2', self.__class__.file2),
         })
+        self.assertEqual(len(files), 2)
         roots[0].check(self, files[0])
         roots[1].check(self, files[1])
 
@@ -96,6 +100,7 @@ class TestUploadFiles(AuthTestCase):
         self.checkMock('POST', 'https://pcloud.localhost/uploadfile', params={'path': '/'}, files={
             'New file': ('New file', self.__class__.file1),
         })
+        self.assertEqual(len(files), 1)
         root.check(self, files[0])
 
     @unittest.mock.patch('pcloud.src.main.requests.request')
@@ -113,6 +118,7 @@ class TestUploadFiles(AuthTestCase):
             'New file1': ('New file1', self.__class__.file1),
             'New file2': ('New file2', self.__class__.file2),
         })
+        self.assertEqual(len(files), 2)
         roots[0].check(self, files[0])
         roots[1].check(self, files[1])
 
@@ -130,6 +136,7 @@ class TestUploadFiles(AuthTestCase):
         self.checkMock('POST', 'https://pcloud.localhost/uploadfile', params={'path': '/Test'}, files={
             'New file': ('New file', self.__class__.file1),
         })
+        self.assertEqual(len(files), 1)
         root.check(self, files[0])
 
     @unittest.mock.patch('pcloud.src.main.requests.request')
@@ -147,6 +154,7 @@ class TestUploadFiles(AuthTestCase):
             'New file1': ('New file1', self.__class__.file1),
             'New file2': ('New file2', self.__class__.file2),
         })
+        self.assertEqual(len(files), 2)
         roots[0].check(self, files[0])
         roots[1].check(self, files[1])
 
@@ -164,6 +172,7 @@ class TestUploadFiles(AuthTestCase):
         self.checkMock('POST', 'https://pcloud.localhost/uploadfile', params={'folderid': 0, 'progresshash': self.__class__.progresId}, files={
             'New file': ('New file', self.__class__.file1),
         })
+        self.assertEqual(len(files), 1)
         root.check(self, files[0])
 
     @unittest.mock.patch('pcloud.src.main.requests.request')
@@ -180,6 +189,7 @@ class TestUploadFiles(AuthTestCase):
         self.checkMock('POST', 'https://pcloud.localhost/uploadfile', params={'folderid': 0, 'renameifexists': True}, files={
             'New file': ('New file', self.__class__.file1),
         })
+        self.assertEqual(len(files), 1)
         root.check(self, files[0])
 
     @unittest.mock.patch('pcloud.src.main.requests.request')
@@ -196,6 +206,7 @@ class TestUploadFiles(AuthTestCase):
         self.checkMock('POST', 'https://pcloud.localhost/uploadfile', params={'folderid': 0, 'renameifexists': False}, files={
             'New file': ('New file', self.__class__.file1),
         })
+        self.assertEqual(len(files), 1)
         root.check(self, files[0])
 
     @unittest.mock.patch('pcloud.src.main.requests.request')
@@ -212,6 +223,7 @@ class TestUploadFiles(AuthTestCase):
         self.checkMock('POST', 'https://pcloud.localhost/uploadfile', params={'folderid': 0, 'nopartial': True}, files={
             'New file': ('New file', self.__class__.file1),
         })
+        self.assertEqual(len(files), 1)
         root.check(self, files[0])
 
     @unittest.mock.patch('pcloud.src.main.requests.request')
@@ -228,6 +240,7 @@ class TestUploadFiles(AuthTestCase):
         self.checkMock('POST', 'https://pcloud.localhost/uploadfile', params={'folderid': 0, 'nopartial': False}, files={
             'New file': ('New file', self.__class__.file1),
         })
+        self.assertEqual(len(files), 1)
         root.check(self, files[0])
 
     @testdata.TestData([
