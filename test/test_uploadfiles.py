@@ -9,7 +9,7 @@ from pcloud.src.error import PCloudError
 
 from PythonUtils import testdata
 
-class TestUploadFile(AuthTestCase):
+class TestUploadFiles(AuthTestCase):
     file1 = 'file1'
     file2 = 'file2'
     progresId = 'progress'

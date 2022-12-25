@@ -16,7 +16,7 @@ from .test_renamefolder import TestRenameFolder
 from .test_movefolder import TestMoveFolder
 from .test_copyfolder import TestCopyFolder
 from .test_deletefolder import TestDeleteFolder
-from .test_uploadfile import TestUploadFile
+from .test_uploadfiles import TestUploadFiles
 from .test_checksumfile import TestChecksumFile
 from .test_statfile import TestStatFile
 from .test_renamefile import TestRenameFile
