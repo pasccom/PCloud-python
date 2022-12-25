@@ -105,9 +105,9 @@ class TestDownload(FileTestCase):
                     self.assertEqual(p, expectedProgress)
                     expectedProgress = min(expectedProgress + PCloudFile.blockSize, maxProgress)
 
-                if type(error) is dict:
-                    self.assertEqual(e.exception.code, error['result'])
-                    self.assertEqual(str(e.exception), f"{error['error'][:-1]} ({error['result']})")
+            if type(error) is dict:
+                self.assertEqual(e.exception.code, error['result'])
+                self.assertEqual(str(e.exception), f"{error['error'][:-1]} ({error['result']})")
 
         # Check mocks
         expectedProgress = prog or 0
