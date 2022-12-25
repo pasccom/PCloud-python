@@ -614,7 +614,7 @@ class PCloud:
         .. note::
             This method requires the user to be authenticated.
 
-        :param file: An integer representing the id of the folder where to create a new file or a string giving its path.
+        :param file: An integer representing the id of the file whose information is requested or a string giving its path.
         :return: A :class:`~.info.PCloudInfo` containing the information about the moved folder.
         """
         params = {}

@@ -258,7 +258,7 @@ class TestUploadFiles(AuthTestCase):
             pCloud.password = 'password'
 
             with self.assertRaises(PCloudError) as e:
-                folder = pCloud.uploadFiles(0, {'New file': self.__class__.file1})
+                files = pCloud.uploadFiles(0, {'New file': self.__class__.file1})
 
             self.assertEqual(e.exception.code, result)
             self.assertEqual(str(e.exception), f"{error[:-1]} ({result})")
@@ -284,7 +284,7 @@ class TestUploadFiles(AuthTestCase):
             pCloud.password = 'password'
 
             with self.assertRaises(PCloudError) as e:
-                folder = pCloud.uploadFiles(0, {'New file': self.__class__.file1})
+                files = pCloud.uploadFiles(0, {'New file': self.__class__.file1})
 
             self.assertEqual(e.exception.code, result)
             self.assertEqual(str(e.exception), f"{error[:-1]} ({result})")
@@ -302,7 +302,7 @@ class TestUploadFiles(AuthTestCase):
             pCloud.password = 'password'
 
             with self.assertRaises(requests.exceptions.HTTPError) as e:
-                folder = pCloud.uploadFiles(0, {'New file': self.__class__.file1})
+                files = pCloud.uploadFiles(0, {'New file': self.__class__.file1})
 
         self.checkMock('POST', 'https://pcloud.localhost/uploadfile', params={'folderid': 0}, files={
             'New file': ('New file', self.__class__.file1),
@@ -317,7 +317,7 @@ class TestUploadFiles(AuthTestCase):
             pCloud.password = 'password'
 
             with self.assertRaises(requests.exceptions.ConnectionError) as e:
-                folder = pCloud.uploadFiles(0, {'New file': self.__class__.file1})
+                files = pCloud.uploadFiles(0, {'New file': self.__class__.file1})
 
         self.checkMock('POST', 'https://pcloud.localhost/uploadfile', params={'folderid': 0}, files={
             'New file': ('New file', self.__class__.file1),
