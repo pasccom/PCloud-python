@@ -44,7 +44,6 @@ class PCloud:
         and much more effficient than downloading it.
         """
         def __new__(cls, value, length=None):
-            print(cls)
             obj = super(Enum, cls).__new__(cls)
             obj._value_ = value
             obj.length = length
