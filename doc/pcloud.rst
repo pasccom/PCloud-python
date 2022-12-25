@@ -15,20 +15,8 @@
     You should have received a copy of the GNU General Public License
     along with PCloud-python. If not, see <http://www.gnu.org/licenses/>
 
-Welcome to PCloud's documentation!
-==================================
-
-Contents
---------
-.. toctree::
-   :maxdepth: 2
+PCloud documentation
+====================
 
 .. autoclass:: pcloud.PCloud
    :members:
-
-.. :and tables
-.. ==================
-
-.. * :ref:`genindex`
-.. * :ref:`modindex`
-.. * :ref:`search`
