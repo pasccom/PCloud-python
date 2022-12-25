@@ -583,6 +583,16 @@ class PCloud:
         del self.__sessions[fd]
 
     def uploadFiles(self, folder, files, progressId=None, partial=True, overwrite=False):
+        """
+        Upload files to given folder.
+
+        :param folder: An integer representing the id of the folder where to upload files or a string giving its path.
+        :param files: A dictionnary whose keys are the names of the files to be created in *PCloud* and the values are the paths to the files.
+        :param progressId: An optional string value to be used to get the progress of the upload operation.
+        :param partial: An optional boolean value indicating whether partially uploaded files should be kept.
+        :param overwrite: An optional boolean value indicating whether to overwrite existing files.
+        :return: A list containing :class:`.info.PCloudInfo` for each uploaded file.
+        """
         params = {}
         self.__setFolder(params, folder)
 
