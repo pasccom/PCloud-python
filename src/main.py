@@ -447,7 +447,7 @@ class PCloud:
 
         :param file: An integer representing the id of the file to be opened or a string giving its path.
         :param flags: Optional :class:`FileOpenFlags`.
-        :return: :class:`.file.PCloudFile` respesenting the opened file.
+        :return: :class:`~.file.PCloudFile` respesenting the opened file.
 
         .. seealso:: :meth:`createFile()`, :meth:`closeFile()`
         """
@@ -477,7 +477,7 @@ class PCloud:
         :param file: An integer representing the id of the folder where to create a new file or a string giving its path.
         :param name: A string giving the name of the file to be created.
         :param flags: Optional :class:`FileOpenFlags`.
-        :return: :class:`.file.PCloudFile` representing the opened file.
+        :return: :class:`~.file.PCloudFile` representing the opened file.
 
         .. seealso:: :meth:`openFile()`, :meth:`closeFile()`
         """
