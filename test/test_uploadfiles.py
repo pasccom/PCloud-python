@@ -15,6 +15,20 @@ class TestUploadFiles(AuthTestCase):
     progresId = 'progress'
 
     @unittest.mock.patch('pcloud.src.main.requests.request')
+    def testIdRoot0(self, mock_request):
+        root = PCloudTestRootFolder([PCloudTestFile('New file', 1)])
+        self.setupMockNormal(mock_request, {'result': 0, 'metadata': [dict(root(base=1))]})
+
+        with PCloud('https://pcloud.localhost/') as pCloud:
+            pCloud.username = 'username'
+            pCloud.password = 'password'
+
+            files = pCloud.uploadFiles(0, {})
+
+        self.assertEqual(len(mock_request.call_args_list), 0)
+        self.assertEqual(len(files), 0)
+
+    @unittest.mock.patch('pcloud.src.main.requests.request')
     def testIdRoot1(self, mock_request):
         root = PCloudTestRootFolder([PCloudTestFile('New file', 1)])
         self.setupMockNormal(mock_request, {'result': 0, 'metadata': [dict(root(base=1))]})
@@ -51,6 +65,20 @@ class TestUploadFiles(AuthTestCase):
         roots[1].check(self, files[1])
 
     @unittest.mock.patch('pcloud.src.main.requests.request')
+    def testIdSubfolder0(self, mock_request):
+        root = PCloudTestRootFolder([PCloudTestFolder('Test', [PCloudTestFile('New file', 2)], 1)])
+        self.setupMockNormal(mock_request, {'result': 0, 'metadata': [dict(root(base=2))]})
+
+        with PCloud('https://pcloud.localhost/') as pCloud:
+            pCloud.username = 'username'
+            pCloud.password = 'password'
+
+            files = pCloud.uploadFiles(1, {})
+
+        self.assertEqual(len(mock_request.call_args_list), 0)
+        self.assertEqual(len(files), 0)
+
+    @unittest.mock.patch('pcloud.src.main.requests.request')
     def testIdSubfolder1(self, mock_request):
         root = PCloudTestRootFolder([PCloudTestFolder('Test', [PCloudTestFile('New file', 2)], 1)])
         self.setupMockNormal(mock_request, {'result': 0, 'metadata': [dict(root(base=2))]})
@@ -66,6 +94,7 @@ class TestUploadFiles(AuthTestCase):
         })
         self.assertEqual(len(files), 1)
         root.check(self, files[0])
+
 
     @unittest.mock.patch('pcloud.src.main.requests.request')
     def testIdSubfolder2(self, mock_request):
@@ -85,6 +114,20 @@ class TestUploadFiles(AuthTestCase):
         self.assertEqual(len(files), 2)
         roots[0].check(self, files[0])
         roots[1].check(self, files[1])
+
+    @unittest.mock.patch('pcloud.src.main.requests.request')
+    def testPathRoot0(self, mock_request):
+        root = PCloudTestRootFolder([PCloudTestFile('New file')])
+        self.setupMockNormal(mock_request, {'result': 0, 'metadata': [dict(root(base='/New file'))]})
+
+        with PCloud('https://pcloud.localhost/') as pCloud:
+            pCloud.username = 'username'
+            pCloud.password = 'password'
+
+            files = pCloud.uploadFiles('/', {})
+
+        self.assertEqual(len(mock_request.call_args_list), 0)
+        self.assertEqual(len(files), 0)
 
     @unittest.mock.patch('pcloud.src.main.requests.request')
     def testPathRoot1(self, mock_request):
@@ -121,6 +164,20 @@ class TestUploadFiles(AuthTestCase):
         self.assertEqual(len(files), 2)
         roots[0].check(self, files[0])
         roots[1].check(self, files[1])
+
+    @unittest.mock.patch('pcloud.src.main.requests.request')
+    def testPathSubfolder0(self, mock_request):
+        root = PCloudTestRootFolder([PCloudTestFolder('Test', [PCloudTestFile('New file')])])
+        self.setupMockNormal(mock_request, {'result': 0, 'metadata': [dict(root(base='/Test/New file'))]})
+
+        with PCloud('https://pcloud.localhost/') as pCloud:
+            pCloud.username = 'username'
+            pCloud.password = 'password'
+
+            files = pCloud.uploadFiles('/Test', {})
+
+        self.assertEqual(len(mock_request.call_args_list), 0)
+        self.assertEqual(len(files), 0)
 
     @unittest.mock.patch('pcloud.src.main.requests.request')
     def testPathSubfolder1(self, mock_request):
