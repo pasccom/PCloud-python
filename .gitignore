@@ -1,1 +1,6 @@
+# Cached:
 __pycache__/
+*.kate-swp
+
+# Built:
+/doc/_build/
