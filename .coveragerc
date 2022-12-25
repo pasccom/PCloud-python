@@ -1,0 +1,13 @@
+[run]
+command_line = -m unittest -v test
+omit =
+    src/pcloud.py
+    test/old_test_pcloud.py
+    test/__main__.py
+    test/objects/*
+source =
+    src/
+#    test/
+
+[html]
+directory = cov/html
