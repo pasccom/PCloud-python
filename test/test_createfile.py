@@ -72,7 +72,7 @@ class TestCreateFile(SessionTestCase):
 
             with self.assertRaises(PCloudError) as e:
                 with pCloud.createFile(0, 'New file'):
-                    pass
+                    pass #pragma: no cover
 
             self.assertEqual(e.exception.code, result)
             self.assertEqual(str(e.exception), f"{error[:-1]} ({result})")
@@ -100,7 +100,7 @@ class TestCreateFile(SessionTestCase):
 
             with self.assertRaises(PCloudError) as e:
                 with pCloud.createFile(0, 'New file'):
-                    pass
+                    pass #pragma: no cover
 
             self.assertEqual(e.exception.code, result)
             self.assertEqual(str(e.exception), f"{error[:-1]} ({result})")
@@ -140,7 +140,7 @@ class TestCreateFile(SessionTestCase):
 
             with self.assertRaises(requests.exceptions.HTTPError) as e:
                 with pCloud.createFile(0, 'New file'):
-                    pass
+                    pass #pragma: no cover
 
         self.checkOpenMock('GET', 'https://pcloud.localhost/file_open', params={'folderid': 0, 'name': 'New file', 'flags': int(PCloud.FileOpenFlags.O_WRITE | PCloud.FileOpenFlags.O_CREAT | PCloud.FileOpenFlags.O_EXCL)})
 
@@ -189,6 +189,6 @@ class TestCreateFile(SessionTestCase):
 
             with self.assertRaises(requests.exceptions.ConnectionError) as e:
                 with pCloud.createFile(0, 'New file'):
-                    pass
+                    pass #pragma: no cover
 
         self.checkOpenMock('GET', 'https://pcloud.localhost/file_open', params={'folderid': 0, 'name': 'New file', 'flags': int(PCloud.FileOpenFlags.O_WRITE | PCloud.FileOpenFlags.O_CREAT | PCloud.FileOpenFlags.O_EXCL)})

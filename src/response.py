@@ -8,16 +8,16 @@ class PCloudResponse:
         return (name != 'result') and (name in self.__data)
 
     def __getitem__(self, name):
-        if (name == 'result'):
+        if (name == 'result'): #pragma: no cover
             raise KeyError("No such key: 'result'")
         return self.__data[name]
 
     def __delitem__(self, name):
-        if (name == 'result'):
+        if (name == 'result'): #pragma: no cover
             raise KeyError("No such key: 'result'")
         del self.__data[name]
 
-    def __repr__(self):
+    def __repr__(self): #pragma: no cover
         r = "PCloudResponse(\n"
         for k, v in self.__data.items():
             if (k != 'result'):

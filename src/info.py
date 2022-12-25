@@ -10,7 +10,7 @@ class PCloudInfoMeta(type):
         for subClass in cls.__subclasses__():
             try:
                 subClassId = subClass.classId
-            except AttributeError:
+            except AttributeError: #pragma: no cover
                 continue
             if subClassId in metadata:
                 return subClass.__call__(pc, metadata)
@@ -50,7 +50,7 @@ class PCloudInfo(metaclass=PCloudInfoMeta):
         self._pCloud = pCloud
         try:
             self.id = metadata[self.__class__.classId]
-        except AttributeError:
+        except AttributeError: #pragma: no cover
             self.id = None
         attrMap = {
             'category'      : 'category',

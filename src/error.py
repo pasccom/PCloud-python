@@ -53,9 +53,9 @@ class PCloudError(Exception):
     def __str__(self):
         try:
             msg = self.__class__.__messages[self.code]
-        except KeyError:
+        except KeyError: #pragma: no cover
             msg = "Unknown PCloud error"
-        except BaseException as e:
+        except BaseException as e: #pragma: no cover
             msg = repr(e)
 
         return f"{msg} ({self.code})"

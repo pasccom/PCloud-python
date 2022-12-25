@@ -27,7 +27,7 @@ class TestListFolder(AuthTestCase):
             self.checkMock('GET', 'https://pcloud.localhost/listfolder', params={'folderid': base})
         elif type(base) is str:
             self.checkMock('GET', 'https://pcloud.localhost/listfolder', params={'path': base})
-        else:
+        else: #pragma: no cover
             raise TypeError(f"Invalid base type: {type(base)}")
         root.check(self, r)
 

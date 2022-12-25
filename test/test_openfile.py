@@ -117,7 +117,7 @@ class TestOpenFile(SessionTestCase):
 
             with self.assertRaises(PCloudError) as e:
                 with pCloud.openFile(1):
-                    pass
+                    pass #pragma: no cover
 
             self.assertEqual(e.exception.code, result)
             self.assertEqual(str(e.exception), f"{error[:-1]} ({result})")
@@ -144,7 +144,7 @@ class TestOpenFile(SessionTestCase):
 
             with self.assertRaises(PCloudError) as e:
                 with pCloud.openFile(1):
-                    pass
+                    pass #pragma: no cover
 
             self.assertEqual(e.exception.code, result)
             self.assertEqual(str(e.exception), f"{error[:-1]} ({result})")
@@ -182,7 +182,7 @@ class TestOpenFile(SessionTestCase):
 
             with self.assertRaises(requests.exceptions.HTTPError) as e:
                 with pCloud.openFile(1):
-                    pass
+                    pass #pragma: no cover
 
         self.checkOpenMock('GET', 'https://pcloud.localhost/file_open', params={'fileid': 1})
 
@@ -230,6 +230,6 @@ class TestOpenFile(SessionTestCase):
 
             with self.assertRaises(requests.exceptions.ConnectionError) as e:
                 with pCloud.openFile(1):
-                    pass
+                    pass #pragma: no cover
 
         self.checkOpenMock('GET', 'https://pcloud.localhost/file_open', params={'fileid': 1})

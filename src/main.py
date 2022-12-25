@@ -417,7 +417,7 @@ class PCloud:
             params[prefix + 'path'] = folder
         elif type(folder) is PCloudFolderInfo:
             params[prefix + 'folderid'] = folder.id
-        else:
+        else: #pragma: no cover
             raise TypeError(f"Invalid folder type: {type(folder)}")
 
     def openFile(self, file, flags=0):
@@ -742,7 +742,7 @@ class PCloud:
             params[prefix + 'path'] = file
         elif type(file) is PCloudFileInfo:
             params[prefix + 'fileid'] = file.id
-        else:
+        else: #pragma: no cover
             raise TypeError(f"Invalid file type: {type(file)}")
 
     def check(self, file, checksum, algorithm=None, retry=False):
@@ -934,5 +934,5 @@ class PCloud:
         elif (r.headers['Content-Type'] == 'application/octet-stream'):
             #print(r.content)
             return r.content
-        else:
+        else: #pragma: no cover
             raise ValueError(f"Unhandled content type: {r.headers['Content-Type']}")

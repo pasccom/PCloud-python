@@ -19,7 +19,7 @@ class FileTestCase(TestCase):
             mr.content = return_value
         elif issubclass(return_value, BaseException):
             mr.raise_for_status.side_effect = return_value
-        else:
+        else: #pragma: no cover
             raise TypeError(f'Unsupported response type: {type(return_value)}')
         return mr
 
