@@ -1,5 +1,11 @@
 class PCloudError(Exception):
-    messages = {
+    """
+    Class representing *PCloud* API errors.
+
+    :param code: *PCloud* API error code.
+    """
+
+    __messages = {
         1000: "Log in required",
         1001: "No full path or name/folderid provided",
         1002: "No full path or folderid provided",
@@ -46,7 +52,7 @@ class PCloudError(Exception):
 
     def __str__(self):
         try:
-            msg = self.__class__.messages[self.code]
+            msg = self.__class__.__messages[self.code]
         except KeyError:
             msg = "Unknown PCloud error"
         except BaseException as e:

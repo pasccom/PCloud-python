@@ -3,7 +3,25 @@ from warnings import warn as warning
 from .error import PCloudError
 
 class PCloudFile:
+    """
+    Class representation for *PCloud* API file objects (a.k.a file descriptors).
+
+    *PCloud* file objects are obtained and used as follows::
+
+        with pCloud.openFile(1) as pCloudFile:
+            print(pCloudFile.read(1024))
+
+
+        with pCloud.createFile(0, 'test.txt') as pCloudFile:
+            print(pCloudFile.write('Hello world!'))
+
+    :param pCloud: :class:`~pcloud.PCloud` instance
+    :param fd: An integer file descriptor.
+    :param fileId: An integer file id.
+    """
+
     blockSize = 524288
+    """ Default size for the data blocks read by :meth:`downloadFile()` or written by :meth:`uploadFile()` """
 
     def __init__(self, pCloud, fd, fileId):
         self.__pCloud = pCloud
@@ -32,18 +50,54 @@ class PCloudFile:
                     break
 
     def read(self, count, offset=None):
+        """
+        Reads data at the current pointer position from the file.
+
+        :param count: An integer giving the number of bytes to read.
+        :param offset: An optional integer giving the position where to read data in the file.
+        :return: A byte array containing the data that has been read in the file
+        """
         return self.__pCloud.readFile(self.__fd, count, offset=offset)
 
     def write(self, data, offset=None):
+        """
+        Writes the given data to the file at the current pointer position.
+
+        :param data: A byte array containing the data to be written in the file.
+        :param offset: An optional integer giving the position where to write the data in the file.
+        :return: A byte array containing the data that has been read in the file
+        """
         return self.__pCloud.writeFile(self.__fd, data, offset=offset)
 
     def truncate(self, length):
+        """
+        Trunctate the file to the given length.
+
+        :param length: An integer giving the length at which to truncate the file.
+        """
         self.__pCloud.truncateFile(self.__fd, length)
 
     def seek(self, offset, origin=0):
+        """
+        Sets the position of the file pointer.
+
+        :param offset: An integer giving the new position of the file pointer.
+        :param origin: Optional :class:`PCloud.OffsetOrigin <pcloud.PCloud.OffsetOrigin>`.
+        :return: An integer giving the new file pointer position (from the start of the file).
+        """
         return self.__pCloud.seekFile(self.__fd, offset, origin)
 
     def uploadFile(self, srcFile, offset):
+        """
+        Uploads the given file the the *PCloud* file by blocks of size :attr:`~PCloudFile.blockSize`.
+
+        .. note::
+            This method is meant to be used internally by :meth:`PCloud.upload() <pcloud.PCloud.upload()>`
+
+        :param srcFile: A ``file`` from wich to read data.
+        :param offset: The offset at which to start reading data.
+        :yield: The current file pointer position.
+        """
         srcFile.seek(offset)
         yield offset
 
@@ -57,6 +111,16 @@ class PCloudFile:
             yield offset
 
     def downloadFile(self, destFile, offset):
+        """
+        Downloads the *PCloud* file to the given file by blocks of size :attr:`~PCloudFile.blockSize`.
+
+        .. note::
+            This method is meant to be used internally by :meth:`PCloud.download() <pcloud.PCloud.download()>`
+
+        :param srcFile: A ``file`` to which to write data.
+        :param offset: The offset at which to start writing data.
+        :yield: The current file pointer position.
+        """
         destFile.seek(offset)
         yield offset
 
@@ -72,10 +136,16 @@ class PCloudFile:
 
     @property
     def size(self):
+        """
+        An integer representing the size of the file in bytes.
+        """
         return self.__pCloud.sizeFile(self.__fd)
 
     @property
     def offset(self):
+        """
+        An integer representing the file pointer position (from the start of the file).
+        """
         return self.__pCloud.offsetFile(self.__fd)
 
     @offset.setter
@@ -83,5 +153,8 @@ class PCloudFile:
         self.__pCloud.seekFile(self.__fd, offset)
 
     def close(self):
+        """
+        Closes the file.
+        """
         self.__pCloud.closeFile(self.__fd)
         self.__isOpen = False

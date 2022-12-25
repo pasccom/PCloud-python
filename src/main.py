@@ -12,7 +12,37 @@ from .info import PCloudInfo
 from .file import PCloudFile
 
 class PCloud:
+    """
+    This is the entry point of *PCloud* API implementation.
+
+    Most of the methods of this class can raise exception related to network issues (e.g. ConnectionError),
+    protocol issues (e.g. requests.exception.HttpError) or *PCloud* API error (:class:`~.error.PCloudError`).
+
+    :param hostname: Optional user-provided URL to a *PCloud* server
+    :param username: Optional user name
+    :param password: Optional password
+
+    .. note::
+        User name and password must be available when using methods requiring authentication.
+
+        They can either be provided to the constructor or later, before calling a method requiring authentication.
+
+    It should be used as follows::
+
+        with PCloud() as pCloud:
+            pCloud.username = "username"
+            pCloud.password = "password"
+
+            pCloud.userInfo()
+    """
+
     class HashAlgorithm(Enum):
+        """
+        Hashing algorithms implemented by *PCloud*
+
+        To check the integrity of a file, getting the hash of a file is sufficient
+        and much more effficient than downloading it.
+        """
         def __new__(cls, value, length=None):
             print(cls)
             obj = super(Enum, cls).__new__(cls)
@@ -21,29 +51,93 @@ class PCloud:
             return obj
 
         SHA256 = ('sha256', 64)
+        """
+        SHA-256 Hashing algorithm (256-bit checksum represented as a string of 64 lowercase hexadecimal digits).
+
+        :meta hide-value:
+        """
         SHA1   = ('sha1',   40)
+        """
+        SHA-1 Hashing algorithm (160-bit checksum represented as a string of 40 lowercase hexadecimal digits).
+
+        :meta hide-value:
+        """
         MD5    = ('md5',    32)
+        """
+        MD-5 Hashing algorithm (128-bit checksum represented as a string of 32 lowercase hexadecimal digits).
+
+        :meta hide-value:
+        """
         ALL    = ('all',      )
 
 
     class FileOpenFlags(IntFlag):
+        """
+        File open flags (used when opening and creating files).
+        """
+
         O_WRITE  = 0x0002
+        """
+        Make the file writable.
+
+        :meta hide-value:
+        """
         O_CREAT  = 0x0040
+        """
+        Force new file creation (fails if the file already exist).
+
+        :meta hide-value:
+        """
         O_EXCL   = 0x0080
+        """
+        Excusive usage (prevent the file to be used multiple times).
+
+        :meta hide-value:
+        """
         O_TRUNC  = 0x0200
+        """
+        Erase the contents of an existing file.
+
+        :meta hide-value:
+        """
         O_APPEND = 0x0400
+        """
+        Append content to en existing file (the file pointer is initialized at the end of the file).
+
+        :meta hide-value:
+        """
 
 
     class OffsetOrigin(Enum):
+        """
+        Offset reference (used when modifying file pointer).
+        """
+
         Begin   = 0
+        """
+        The offset is absolute (from the start of the file).
+
+        :meta hide-value:
+        """
         Current = 1
+        """
+        The offset is relative (from the current file pointer).
+
+        :meta hide-value:
+        """
         End     = 2
+        """
+        The offset is counted from the end of the file.
+
+        :meta hide-value:
+        """
 
         def __int__(self):
             return self.value
 
 
     defaultServer = 'https://eapi.pcloud.com/'
+    """ Default *PCloud* API server, which will be used if the user does not provide one and none can be obtained using :meth:`getApiServer()` """
 
     def __init__(self, hostname=None, username=None, password=None):
         self.__hostnames = [hostname, PCloud.defaultServer] if (hostname is not None) else []
@@ -74,12 +168,28 @@ class PCloud:
 
     @property
     def authenticated(self):
+        """
+            Indicates whether the user is authenticated to the *PCloud* API.
+        """
         return (self.__authtoken is not None)
 
     def currentServer(self):
+        """
+        Get information on the *PCloud* API server which is currently being used.
+
+        :return: A dictionnary containing information on the *PCloud* API server.
+        """
         return self.__sendNoAuthRequest('GET', 'currentserver')
 
     def getApiServer(self, binary=False):
+        """
+        Get the best API server URLs from *PClould* (depending on user location).
+        :param binary: Whether to get a binary API server
+        :return: A list of string containing the URLs to the best *PCloud* API servers
+
+        .. note::
+            This method is used internally so that the best *PCloud* API server is used.
+        """
         r = self.__sendNoAuthRequest('GET', 'getapiserver')
         if binary:
             return ['https://' + host + '/' for host in r['binapi']]
@@ -87,17 +197,47 @@ class PCloud:
             return ['https://' + host + '/' for host in r['api']]
 
     def getIp(self):
+        """
+        Get the user IP seen from the *PCloud* API server
+
+        :return: A string representing the user IP.
+        """
         r = self.__sendNoAuthRequest('GET', 'getip')
         return r['ip']
 
     def getDigest(self):
+        """
+        Get an authentication digest.
+
+        .. note::
+            This method is used internally to authenticate the user on the server.
+
+        :return: A string containing the authentication digest.
+        """
         r = self.__sendNoAuthRequest('GET', 'getdigest')
         return r['digest']
 
     def userInfo(self):
+        """
+        Get user information
+
+        .. note::
+            This method requires the user to be authenticated.
+
+        :return: A dictionnary containing information of the currently autenticated user.
+        """
         return self.__sendAuthRequest('GET', 'userinfo')
 
     def logout(self):
+        """
+        Log the user out.
+
+        .. note::
+            This method requires the user to be authenticated.
+
+        :return: A boolean value indicating whether the user was actually logged out.
+        """
+
         if self.__authtoken is None:
             return True
         try:
@@ -109,13 +249,43 @@ class PCloud:
         return r['auth_deleted']
 
     def supportedLanguages(self):
+        """
+        Get the list of languages supported by this *PCloud* API server.
+
+        :return: A dictionnary which maps supported languages codes to support languages names.
+
+        .. seealso:: :meth:`setLanguage()`
+        """
         r = self.__sendNoAuthRequest('GET', 'supportedlanguages')
         return r['languages']
 
     def setLanguage(self, lang):
+        """
+        Set the language for the user currently authenticated.
+
+        .. note::
+            This method requires the user to be authenticated.
+
+        :param lang: A string containing the desired language code.
+
+        .. seealso:: :meth:`supportedLanguages()`
+        """
         self.__sendAuthRequest('GET', 'setlanguage', params={'language': lang})
 
     def listFolder(self, folder, recursive=False, showDeleted=False, noFiles=False, noShares=False):
+        """
+        Lists the contents of a given folder.
+
+        .. note::
+            This method requires the user to be authenticated.
+
+        :param folder: An integer representing the id of the folder to be listed or a string giving its path.
+        :param recursive: An optional boolean value indicating whether the contents of child folders should be listed as well.
+        :param showDeleted: An optional boolean value indicating whether deleted files (in the trash) should be listed.
+        :param noFiles: An optional boolean value indicating whether files should not be listed.
+        :param noShares: An optional boolean value indicating whether shared folders or files should not be listed.
+        :return: A :class:`~.info.PCloudInfo` containing the information about the given folder.
+        """
         params = {}
         self.__setFolder(params, folder)
 
@@ -128,6 +298,17 @@ class PCloud:
         return PCloudInfo(self, r['metadata'])
 
     def createFolder(self, folder, name, exists=False):
+        """
+        Creates a new folder in the given folder.
+
+        .. note::
+            This method requires the user to be authenticated.
+
+        :param folder: An integer representing the id of the folder where to create the new folder or a string giving its path.
+        :param name: A string containing the name of the new folder
+        :param exists: An optional boolean value indicating whether the function should raise an exception if the folder already exists.
+        :return: A :class:`~.info.PCloudInfo` containing the information about the new folder.
+        """
         params = {}
         self.__setFolder(params, folder)
 
@@ -145,6 +326,16 @@ class PCloud:
         return PCloudInfo(self, r['metadata'])
 
     def renameFolder(self, folder, name):
+        """
+        Renames a folder.
+
+        .. note::
+            This method requires the user to be authenticated.
+
+        :param folder: An integer representing the id of the folder to be renamed or a string giving its path.
+        :param name: A string containing the new name for the folder.
+        :return: A :class:`~.info.PCloudInfo` containing the information about the renamed folder.
+        """
         params = {}
         self.__setFolder(params, folder)
 
@@ -158,6 +349,16 @@ class PCloud:
         return PCloudInfo(self, r['metadata'])
 
     def moveFolder(self, src, dest):
+        """
+        Moves a folder.
+
+        .. note::
+            This method requires the user to be authenticated.
+
+        :param src: An integer representing the id of the folder to be moved or a string giving its path.
+        :param dest: An integer representing the id of the folder wehre to move the folder or a string giving its path.
+        :return: A :class:`~.info.PCloudInfo` containing the information about the moved folder.
+        """
         params = {}
         self.__setFolder(params, src)
         self.__setFolder(params, dest, prefix='to')
@@ -169,6 +370,18 @@ class PCloud:
         return PCloudInfo(self, r['metadata'])
 
     def copyFolder(self, src, dest, overwrite=False, exist=False):
+        """
+        Copies a folder.
+
+        .. note::
+            This method requires the user to be authenticated.
+
+        :param src: An integer representing the id of the folder to be copied or a string giving its path.
+        :param dest: An integer representing the id of the folder wehre to copy the folder or a string giving its path.
+        :param overwrite: An optional boolean value indicating whether to overwrite the contents of the destination folder.
+        :param exist: An optional boolean value indicating whether the folder should not be copied if the destination already exists.
+        :return: A :class:`~.info.PCloudInfo` containing the information about the copied folder.
+        """
         params = {}
         self.__setFolder(params, src)
         self.__setFolder(params, dest, prefix='to')
@@ -183,6 +396,15 @@ class PCloud:
         return PCloudInfo(self, r['metadata'])
 
     def deleteFolder(self, folder):
+        """
+        Deletes a folder.
+
+        .. note::
+            This method requires the user to be authenticated.
+
+        :param folder: An integer representing the id of the folder to be deleted or a string giving its path.
+        :return: A :class:`~.info.PCloudInfo` containing the information about the deleted folder.
+        """
         params = {}
         self.__setFolder(params, folder)
 
@@ -200,6 +422,19 @@ class PCloud:
             raise TypeError(f"Invalid folder type: {type(folder)}")
 
     def openFile(self, file, flags=0):
+        """
+        Opens the given file.
+
+        .. note::
+            This method requires the user to be authenticated.
+
+
+        :param file: An integer representing the id of the file to be opened or a string giving its path.
+        :param flags: Optional :class:`FileOpenFlags`.
+        :return: :class:`.file.PCloudFile` respesenting the opened file.
+
+        .. seealso:: :meth:`createFile()`, :meth:`closeFile()`
+        """
         params = {}
         self.__setFile(params, file)
 
@@ -217,6 +452,19 @@ class PCloud:
         return PCloudFile(self, r['fd'], r['fileid'])
 
     def createFile(self, folder, name, flags=0):
+        """
+        Creates a new file in the given folder.
+
+        .. note::
+            This method requires the user to be authenticated.
+
+        :param file: An integer representing the id of the folder where to create a new file or a string giving its path.
+        :param name: A string giving the name of the file to be created.
+        :param flags: Optional :class:`FileOpenFlags`.
+        :return: :class:`.file.PCloudFile` representing the opened file.
+
+        .. seealso:: :meth:`openFile()`, :meth:`closeFile()`
+        """
         params = {}
         self.__setFolder(params, folder)
 
@@ -238,12 +486,34 @@ class PCloud:
         return PCloudFile(self, r['fd'], r['fileid'])
 
     def readFile(self, fd, count, offset=None):
+        """
+        Read data from the given file descriptor.
+
+        .. note::
+            This method is intended to be used internally by :meth:`PCloudFile.read() <.file.PCloudFile.read()>`.
+
+        :param fd: An integer file descriptor.
+        :param count: An integer giving the number of bytes to read.
+        :param offset: An optional integer giving the position where to read data in the file.
+        :return: A byte array containing the data that has been read in the file
+        """
         if offset is None:
             return self.__sendAuthRequest('GET', 'file_read', params={'fd': fd, 'count': count})
         else:
             return self.__sendAuthRequest('GET', 'file_pread', params={'fd': fd, 'count': count, 'offset': offset})
 
     def writeFile(self, fd, data, offset=None):
+        """
+        Write data to the given file descriptor.
+
+        .. note::
+            This method is intended to be used internally by :meth:`PCloudFile.write() <.file.PCloudFile.write()>`.
+
+        :param fd: An integer file descriptor.
+        :param data: A byte array containing the data to be written in the file.
+        :param offset: An optional integer giving the position where to write the data in the file.
+        :return: A byte array containing the data that has been read in the file
+        """
         if offset is None:
             r = self.__sendAuthRequest('PUT', 'file_write', params={'fd': fd}, data=data)
         else:
@@ -251,21 +521,65 @@ class PCloud:
         return r['bytes']
 
     def truncateFile(self, fd, length):
+        """
+        Trunctate the given file descriptor to the given length.
+
+        .. note::
+            This method is intended to be used internally by :meth:`PCloudFile.truncate() <.file.PCloudFile.truncate()>`.
+
+        :param fd: An integer file descriptor.
+        :param length: An integer giving the length at which to truncate the file.
+        """
+
         self.__sendAuthRequest('GET', 'file_truncate', params={'fd': fd, 'length': length})
 
     def sizeFile(self, fd):
+        """
+        Gets the size of the given file descriptor.
+
+        .. note::
+            This method is intended to be used internally by :attr:`PCloudFile.size <.file.PCloudFile.size>`.
+
+        :param fd: An integer file descriptor.
+        :return: An integer representing the size of the file in bytes.
+        """
         r = self.__sendAuthRequest('GET', 'file_size', params={'fd': fd})
         return r['size']
 
     def offsetFile(self, fd):
+        """
+        Gets the position of the pointer for the given file descriptor.
+
+        .. note::
+            This method is intended to be used internally by :attr:`PCloudFile.offset <.file.PCloudFile.offset>`.
+
+        :param fd: An integer file descriptor.
+        :return: An integer representing the file pointer position (from the start of the file).
+        """
         r = self.__sendAuthRequest('GET', 'file_size', params={'fd': fd})
         return r['offset']
 
     def seekFile(self, fd, offset, origin=0):
+        """
+        Sets the position of the pointer for the given file descriptor.
+
+        .. note::
+            This method is intended to be used internally by :meth:`PCloudFile.seek() <.file.PCloudFile.seek()>`.
+
+        :param fd: An integer file descriptor.
+        :param offset: An integer giving the new position of the file pointer.
+        :param origin: Optional :class:`OffsetOrigin`.
+        :return: An integer giving the new file pointer position (from the start of the file).
+        """
         r = self.__sendAuthRequest('GET', 'file_seek', params={'fd': fd, 'offset': offset, 'whence': int(origin)})
         return r['offset']
 
     def closeFile(self, fd):
+        """
+        Closes the given file descriptor.
+
+        :param fd: An integer file descriptor.
+        """
         self.__sendAuthRequest('GET', 'file_close', params={'fd': fd})
         del self.__sessions[fd]
 
@@ -285,6 +599,15 @@ class PCloud:
             return []
 
     def statFile(self, file):
+        """
+        Get *PCloud* file information.
+
+        .. note::
+            This method requires the user to be authenticated.
+
+        :param file: An integer representing the id of the folder where to create a new file or a string giving its path.
+        :return: A :class:`~.info.PCloudInfo` containing the information about the moved folder.
+        """
         params = {}
         self.__setFile(params, file)
 
@@ -292,6 +615,19 @@ class PCloud:
         return PCloudInfo(self, r['metadata'])
 
     def checksumFile(self, file, algorithm=None):
+        """
+        Get checksum for the given file.
+
+        If an algorithm is requested and the checksum is available, the corresponding checksum returned.
+        Otherwise the most robust checksum ir returned.
+
+        .. note::
+            This method requires the user to be authenticated.
+
+        :param file: An integer representing the id of the folder where to create a new file or a string giving its path.
+        :param algorithm: An optional :class:`HashAlgorithm`
+        :return: A :class:`~.info.PCloudInfo` containing the information about the moved folder.
+        """
         params = {}
         self.__setFile(params, file)
 
@@ -317,6 +653,16 @@ class PCloud:
         return PCloudInfo(self, r['metadata'])
 
     def renameFile(self, file, name):
+        """
+        Renames a file.
+
+        .. note::
+            This method requires the user to be authenticated.
+
+        :param file: An integer representing the id of the file to be renamed or a string giving its path.
+        :param name: A string containing the new name for the file.
+        :return: A :class:`~.info.PCloudInfo` containing the information about the renamed file.
+        """
         params = {}
         self.__setFile(params, file)
 
@@ -330,6 +676,16 @@ class PCloud:
         return PCloudInfo(self, r['metadata'])
 
     def moveFile(self, src, dest):
+        """
+        Moves a file.
+
+        .. note::
+            This method requires the user to be authenticated.
+
+        :param src: An integer representing the id of the file to be moved or a string giving its path.
+        :param dest: An integer representing the id of the folder wehre to move the file or a string giving its path.
+        :return: A :class:`~.info.PCloudInfo` containing the information about the moved file.
+        """
         params = {}
         self.__setFile(params, src)
         self.__setFolder(params, dest, prefix='to')
@@ -341,6 +697,17 @@ class PCloud:
         return PCloudInfo(self, r['metadata'])
 
     def copyFile(self, src, dest, overwrite=False):
+        """
+        Copies a file.
+
+        .. note::
+            This method requires the user to be authenticated.
+
+        :param src: An integer representing the id of the file to be copied or a string giving its path.
+        :param dest: An integer representing the id of the folder wehre to copy the file or a string giving its path.
+        :param overwrite: An optional boolean value indicating whether to overwrite the contents of the destination file.
+        :return: A :class:`~.info.PCloudInfo` containing the information about the copied file.
+        """
         params = {}
         self.__setFile(params, src)
         self.__setFolder(params, dest, prefix='to')
@@ -354,6 +721,15 @@ class PCloud:
         return PCloudInfo(self, r['metadata'])
 
     def deleteFile(self, file):
+        """
+        Deletes a file.
+
+        .. note::
+            This method requires the user to be authenticated.
+
+        :param file: An integer representing the id of the file to be deleted or a string giving its path.
+        :return: A :class:`~.info.PCloudInfo` containing the information about the deleted file.
+        """
         params = {}
         self.__setFile(params, file)
 
@@ -371,6 +747,17 @@ class PCloud:
             raise TypeError(f"Invalid file type: {type(file)}")
 
     def check(self, file, checksum, algorithm=None, retry=False):
+        """
+        Check that the checksum of the given file is the expected one.
+        If **algorithm** is not provided, the algorithm is determined based on the length of the checksum.
+        If the checksums do not match, a message is displayed with the expected and the actual checksums.
+
+        :param file: An integer representing the id of the file whose integrity to verify or a string giving its path.
+        :param checksum: A string containing the expected checksum for the file.
+        :param algorithm: An optional :class:`HashAlgorithm` to be used to obtain the checksum
+        :parem retry: An optional boolean value indicating whether to retry in case of "File not found" error (the server needs some time to actualize its checksum cache.
+        :return: A boolean value indicating whether the checksums match.
+        """
         if algorithm is None:
             for algo in PCloud.HashAlgorithm:
                 if (len(checksum) == algo.length):
@@ -394,6 +781,14 @@ class PCloud:
                     time.sleep(5)
 
     def upload(self, srcFilePath, fileOrFolder, destFileName=None):
+        """
+        Upload a file.
+
+        :param srcFilePath: A string representing the path to the file to upload.
+        :param fileOrFolder: An integer representing the id of the folder where to upload the file or the file itself or a string giving its path.
+        :param destFileName: An optional string giving the name of the new file.
+        :yield: The current file pointer position.
+        """
         progPath = srcFilePath + '.prog'
 
         if destFileName is not None:
@@ -431,6 +826,13 @@ class PCloud:
         os.remove(progPath)
 
     def download(self, destFilePath, file):
+        """
+        Donwload a file.
+
+        :param destFilePath: A string representing the path where to donwload the file.
+        :param fileOrFolder: An integer representing the id of the file to download or a string giving its path.
+        :yield: The current file pointer position.
+        """
         progPath = destFilePath + '.prog'
 
         print(f'Download pCloud://{file} to {destFilePath}')

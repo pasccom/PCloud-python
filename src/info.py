@@ -1,4 +1,11 @@
 class PCloudInfoMeta(type):
+    """
+    This metaclass allows to select the right :class:`PCloudInfo` subClass
+    depending on the metadata.
+
+    :param pc: :class:`~pcloud.PCloud` instance
+    :param metadata: A dictionary containing folder or file information returned by *PCloud* API methods.
+    """
     def __call__(cls, pc, metadata):
         for subClass in cls.__subclasses__():
             try:
@@ -12,6 +19,33 @@ class PCloudInfoMeta(type):
 
 
 class PCloudInfo(metaclass=PCloudInfoMeta):
+    """
+    Base class to represent *PCloud* folder of file information. The instances of this class will have the following attributes:
+      - ``category`` An integer representing the item category
+      - ``contentType`` A sirng containing the item MIME type
+      - ``comments`` A string containing user comments associated to item
+      - ``created`` A string representing item creation date (using the format )
+      - ``hash`` An integer hash for the item
+      - ``icon`` A string containing the item icon
+      - ``id`` An integer representing the item id
+      - ``isFolder`` A boolean value indicating whether the item is a folder
+      - ``isMine`` A boolean value indicating whether the item belongs to the current user.
+      - ``isShared`` A boolean value indicating whether the item is shared
+      - ``modified`` A string representing item modification date (using the format )
+      - ``name`` A string containing the item name
+      - ``parentFolderId`` An integer representing the id of the parent folder
+      - ``path`` A string containing the path to the item
+      - ``size`` An integer representing the size of the file in bytes
+      - ``hasThumb`` A boolean value indicating whether the item has been marked as favorite
+
+    The instances of this class can be iterated through to get the contents of the item.
+    Lazy-loading is implemented if the metadata has not been obtained with :meth:`PCloud.listFolder() <pcloud.PCloud.listFolder()>`
+    with recursion enabled.
+
+    :param pc: :class:`~pcloud.PCloud` instance
+    :param metadata: A dictionary containing folder or file information returned by *PCloud* API methods.
+    """
+
     def __init__(self, pCloud, metadata):
         self._pCloud = pCloud
         try:
@@ -49,7 +83,12 @@ class PCloudInfo(metaclass=PCloudInfoMeta):
 
 
 class PCloudFileInfo(PCloudInfo):
+    """
+    Class representing *PCloud* file information. See :class:`PCloudInfo` for details.
+    """
+
     classId = 'fileid'
+    """ Metadata identifier supported by this classs """
 
     @property
     def isFolder(self):
@@ -57,7 +96,12 @@ class PCloudFileInfo(PCloudInfo):
 
 
 class PCloudFolderInfo(PCloudInfo):
+    """
+    Class representing *PCloud* folder information. See :class:`PCloudInfo` for details.
+    """
+
     classId = 'folderid'
+    """ Metadata identifier supported by this classs """
 
     def __init__(self, pCloud, metadata):
         super().__init__(pCloud, metadata)
