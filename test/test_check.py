@@ -1277,7 +1277,7 @@ class TestCheck(AuthTestCase):
         {'algorithm': PCloud.HashAlgorithm.MD5,    'result': 5000, 'error': "Internal error, try again later."          },
     ])
     @unittest.mock.patch('pcloud.src.main.requests.request')
-    def testIdAlgoError(self, mock_request, algorithm, result, error):
+    def testIdAlgoLoginError(self, mock_request, algorithm, result, error):
         root = PCloudTestRootFolder([PCloudTestFile('New file', 1)])
         self.setupMockLoginError(mock_request, result, error)
 
